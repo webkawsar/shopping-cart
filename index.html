@@ -8,7 +8,6 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
    <link href="style.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -26,12 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button id="minusButton" class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input id="getQty" type="text" class="form-control text-center" value="1">
-                           <button id="plusButton" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="decreasePhone" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phoneQty" type="text" class="form-control text-center" value="1">
+                           <button id="increasePhone" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <span id="hideAmount">100</span>
-                        <h5>$<span id="productAmount">100</span></h5>
+                        <h5>$ <span id="phonePrice">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -45,13 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button id="minusButton2" class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input id="getQty2" type="text" class="form-control text-center" value="1">
-                           <button id="plusButton2" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="decreaseCase" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="caseQty" type="text" class="form-control text-center" value="1">
+                           <button id="increaseCase" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <span id="hideAmount2">50</span>
-                        <h5>$<span id="productAmount2">50</span></h5>
+                        <h5>$ <span id="casePrice">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -67,22 +64,86 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$<span id="subTotal">0</span></h5>
-                        <h5>$<span id="tax">5</span></h5>
-                        <h5>$<span id="total">0</span></h5>
+                        <h5>$ <span id="subtotal"></span></h5>
+                        <h5>$ <span id="tax"></span></h5>
+                        <h5>$ <span id="total"></span></h5>
                      </div>
                   </div>
                </div>
                <div class="col-md-12 pt-4 pb-4">
-                  <button id="checkout" type="button" class="btn btn-success check-out">Check Out</button>
+                  <button id="CheckOut" type="button" class="btn btn-success check-out">Check Out</button>
                </div>
             </div>
          </div>
       </div>
    </section>
 
+   <script>
 
-   <script src="script.js"></script>
+      // phone qty increase handler
+      document.getElementById("increasePhone").addEventListener("click", () => {
+
+         priceCalculation("phoneQty", "phonePrice", 1219, true);
+         totalCalculation();
+
+      })
+
+      // phone qty decrease handler
+      document.getElementById("decreasePhone").addEventListener("click", () => {
+
+         priceCalculation("phoneQty", "phonePrice", 1219, false);
+         totalCalculation();
+      })
+
+
+      // phone case increase event handler
+      document.getElementById("increaseCase").addEventListener("click", () => {
+
+         priceCalculation("caseQty", "casePrice", 59, true);
+         totalCalculation();
+
+      })
+
+      // phone case decrease event handler
+      document.getElementById("decreaseCase").addEventListener("click", () => {
+
+         priceCalculation("caseQty", "casePrice", 59, false);
+         totalCalculation();
+      })
+
+
+      // calculation
+      function priceCalculation(id, setId, price, isIncrease) {
+
+         const qtyId = document.getElementById(id);
+         const qty = parseInt(qtyId.value);
+         const value = isIncrease ? qty + 1 : qty > 1 ? qty - 1 : 1;
+         qtyId.value = value;              
+         document.getElementById(setId).innerText = price * value;
+
+      }
+
+      function totalCalculation() {
+
+         const phone = document.getElementById("phonePrice").innerText;
+         const casePrice = document.getElementById("casePrice").innerText;
+         const subtotal = parseFloat(phone) + parseFloat(casePrice);
+         const tax = (subtotal / 100) * 10;
+         const total = subtotal + tax;
+
+         document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+         document.getElementById("tax").innerText = tax.toFixed(2);
+         document.getElementById("total").innerText = total.toFixed(2);
+
+      }
+      totalCalculation();
+
+      // checkout button
+      document.getElementById("CheckOut").addEventListener("click", function(){
+         confirm("Are you sure want to checkout");
+      });
+
+   </script>
 </body>
 
 </html>
