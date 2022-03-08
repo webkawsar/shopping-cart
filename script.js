@@ -232,6 +232,8 @@ document.getElementById("checkout").addEventListener("click", function () {
 // }
 
 
+// Here extra work unnecessary
+
 
 
 
